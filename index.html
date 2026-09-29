@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#183c2f">
+  <meta name="description" content="Browse the Kroon Cannabis menu and send an order request to the shop on WhatsApp.">
+  <title>Kroon Cannabis | Menu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.5.3/papaparse.min.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Kroon Cannabis home">
+      <span class="brand-mark" aria-hidden="true">K</span>
+      <span class="brand-copy"><strong>KROON</strong><small>CANNABIS</small></span>
+    </a>
+    <div class="header-note"><span class="age-mark">18+</span><span>Browse the menu</span></div>
+    <button class="basket-trigger" id="basket-trigger" type="button" aria-haspopup="dialog">Basket <span id="basket-count">0</span></button>
+  </header>
+
+  <main id="top">
+    <section class="intro" aria-labelledby="page-title">
+      <div class="intro-copy">
+        <p class="eyebrow"><span class="live-dot"></span> Kroon Cannabis · South Africa</p>
+        <h1 id="page-title">Good things<br>grow here.</h1>
+        <p class="intro-description">Order ahead on WhatsApp, then pay when you pick up. Travin will confirm your order.</p>
+        <a class="text-link" href="#menu">Explore the menu <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="intro-image" role="img" aria-label="Cannabis flower and leaves"></div>
+      <div class="intro-stamp" aria-hidden="true"><span>CURATED</span><strong>WITH<br>CARE</strong></div>
+    </section>
+
+    <div class="demo-notice" role="status">
+      <strong>Menu preview</strong>
+      <span>Items and prices are examples. Travin can update the live menu in <code>menu.csv</code>.</span>
+    </div>
+
+    <section class="featured-section" id="new-arrivals" aria-labelledby="new-title" hidden>
+      <div class="featured-heading"><div><p class="eyebrow">FRESH ON THE MENU</p><h2 id="new-title">Just landed<span class="heading-period">.</span></h2></div><span class="featured-mark">NEW</span></div>
+      <div class="product-grid featured-grid" id="new-grid"></div>
+    </section>
+
+    <section class="featured-section specials-section" id="specials" aria-labelledby="specials-title" hidden>
+      <div class="featured-heading"><div><p class="eyebrow">A LITTLE SOMETHING EXTRA</p><h2 id="specials-title">On special<span class="heading-period">.</span></h2></div><span class="featured-mark special-mark">SAVE</span></div>
+      <div class="product-grid featured-grid" id="specials-grid"></div>
+    </section>
+
+    <section class="menu-section" id="menu" aria-labelledby="menu-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">THE GOOD STUFF</p><h2 id="menu-title">The menu<span class="heading-period">.</span></h2></div>
+        <label class="sort-control" for="sort-select">Sort
+          <select id="sort-select" aria-label="Sort menu items">
+            <option value="featured">Featured</option>
+            <option value="price-asc">Price: low to high</option>
+            <option value="price-desc">Price: high to low</option>
+            <option value="name">Name: A to Z</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="menu-tools">
+        <div class="category-list" id="category-list" role="group" aria-label="Filter by category"></div>
+        <label class="search-box">
+          <span class="visually-hidden">Search menu</span>
+          <span aria-hidden="true">⌕</span>
+          <input id="search-input" type="search" placeholder="Find something…" autocomplete="off">
+          <kbd>/</kbd>
+        </label>
+      </div>
+
+      <p class="result-count" id="result-count" aria-live="polite"></p>
+      <div class="product-grid" id="product-grid" aria-live="polite"></div>
+      <div class="empty-state" id="empty-state" hidden>
+        <p class="eyebrow">NOTHING HERE YET</p>
+        <h3>No matches this time.</h3>
+        <p>Try another search or category.</p>
+        <button class="quiet-button" id="clear-filters" type="button">Clear filters</button>
+      </div>
+    </section>
+
+    <section class="contact-strip" aria-label="Contact the shop">
+      <div><p class="eyebrow">A QUESTION? JUST ASK.</p><h2>Talk to Travin.</h2></div>
+      <div class="contact-actions">
+        <a class="whatsapp-contact" id="whatsapp-contact" href="https://wa.me/27835841120" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.82 11.82 0 0 0 12.08 0C5.5 0 .15 5.35.15 11.93c0 2.1.55 4.16 1.6 5.97L.06 24l6.25-1.64a11.9 11.9 0 0 0 5.77 1.47h.01c6.58 0 11.93-5.35 11.93-11.93a11.85 11.85 0 0 0-3.5-8.42ZM12.09 21.8h-.01a9.9 9.9 0 0 1-5.05-1.39l-.36-.21-3.71.97.99-3.62-.23-.37a9.87 9.87 0 0 1-1.52-5.25c0-5.46 4.44-9.9 9.9-9.9a9.84 9.84 0 0 1 7 2.9 9.84 9.84 0 0 1 2.9 7c0 5.46-4.44 9.9-9.91 9.9Zm5.43-7.41c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.14-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.91-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37s-1.04 1.02-1.04 2.48 1.06 2.87 1.21 3.07c.15.2 2.09 3.2 5.07 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35Z"/></svg>
+          WhatsApp Travin
+        </a>
+        <a class="contact-link" id="contact-link" href="tel:+27835841120">+27 83 584 1120</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="footer-brand" href="#top">KROON <span>CANNABIS</span></a>
+    <div class="footer-note">
+      <p>For adults 18+ only. Order ahead and pay at pickup. Orders are confirmed by the shop.</p>
+      <span class="socials-note">More socials coming soon</span>
+    </div>
+    <span class="footer-year">© <span id="year"></span> Kroon Cannabis</span>
+  </footer>
+
+  <dialog class="basket-dialog" id="basket-dialog" aria-labelledby="basket-title">
+    <div class="basket-head">
+      <div><p class="eyebrow">YOUR SELECTION</p><h2 id="basket-title">Your basket</h2></div>
+      <button class="close-button" id="close-basket" type="button" aria-label="Close basket">×</button>
+    </div>
+    <div class="basket-lines" id="basket-lines"></div>
+    <div class="basket-empty" id="basket-empty"><p>Your basket is looking a little light.</p><button class="quiet-button" id="keep-browsing" type="button">Keep browsing</button></div>
+    <div class="basket-summary" id="basket-summary" hidden>
+      <div class="total-line"><span>Estimated total</span><strong id="basket-total">R0</strong></div>
+      <p>Order ahead by WhatsApp and pay when you pick up. Travin will reply to confirm availability and collection details.</p>
+      <a class="whatsapp-button" id="whatsapp-order" href="#" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.82 11.82 0 0 0 12.08 0C5.5 0 .15 5.35.15 11.93c0 2.1.55 4.16 1.6 5.97L.06 24l6.25-1.64a11.9 11.9 0 0 0 5.77 1.47h.01c6.58 0 11.93-5.35 11.93-11.93a11.85 11.85 0 0 0-3.5-8.42ZM12.09 21.8h-.01a9.9 9.9 0 0 1-5.05-1.39l-.36-.21-3.71.97.99-3.62-.23-.37a9.87 9.87 0 0 1-1.52-5.25c0-5.46 4.44-9.9 9.9-9.9a9.84 9.84 0 0 1 7 2.9 9.84 9.84 0 0 1 2.9 7c0 5.46-4.44 9.9-9.91 9.9Zm5.43-7.41c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.14-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.91-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37s-1.04 1.02-1.04 2.48 1.06 2.87 1.21 3.07c.15.2 2.09 3.2 5.07 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35Z"/></svg>
+        Send order on WhatsApp <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </dialog>
+
+  <dialog class="age-dialog" id="age-dialog" aria-labelledby="age-title">
+    <div class="age-content">
+      <span class="age-mark large">18+</span>
+      <p class="eyebrow">KROON CANNABIS</p>
+      <h2 id="age-title">A quick check<br>before you come in.</h2>
+      <p>This menu is for adults aged 18 and over. By continuing, you confirm you meet the legal age requirement where you are.</p>
+      <button class="primary-button" id="confirm-age" type="button">I’m 18 or older <span aria-hidden="true">→</span></button>
+      <a class="age-exit" href="https://www.google.com/">I’m under 18</a>
+    </div>
+  </dialog>
+</body>
+</html>
